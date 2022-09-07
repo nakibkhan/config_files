@@ -1,4 +1,3 @@
-
 :set number
 :set autoindent
 :set tabstop=4
@@ -55,60 +54,10 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
 
-" Function to check if character before cursor is a " " (empty) or not
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" go to file - https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-tab-or-custom-key-for-trigger-completion 
 
-let g:coc_snippet_next = '<C-j>'
-let g:coc_snippet_prev = '<C-k>'
+" inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
-"""" <TAB>
-inoremap <silent><S-Space> <C-o>l
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 
-
-"""" <S-TAB>
-inoremap <expr><S-TAB>
-      \ pumvisible() ? "\<C-p>" : "\<C-O>b"
-
-"""" <C-SPACE>
-
-    inoremap <silent><expr> <c-space>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<SPACE>" :
-      \ coc#refresh()
-
-"""" <SPACE>
-
-  if exists('*complete_info')
-    inoremap <silent><expr> <space>
-          \ complete_info()["selected"] == "-1" ? "\<SPACE>" :
-          \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-          \ "\<SPACE>"
-    " inoremap <silent><expr> <BS>
-    "       \ complete_info()["selected"] != "-1" ? "\<C-E>" :
-    "       \ "\<C-g>u\<BS>"
-  endif
-
-"""" snippet select
-  vmap <C-j> <Plug>(coc-snippets-select)
-
-"""" <CR>
-  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-  " position. Coc only does snippet and additional edit on confirm.
-  " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-
-  if exists('*complete_info')
-    "if something from the pum is selected confirm with Enter key
-    inoremap <expr><cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-  else
-    inoremap <expr><cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  endif
