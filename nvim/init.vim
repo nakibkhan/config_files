@@ -20,6 +20,9 @@ Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
 Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
 Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
 Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
+Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }  " FZF install binary
+Plug 'https://github.com/junegunn/fzf.vim' " FZF plugin install
+
 
 call plug#end()
 
@@ -29,6 +32,7 @@ nnoremap <C-f> :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
+nnoremap <C-s> :Files<CR>
 
 nmap <F8> :TagbarToggle<CR>
 
@@ -59,5 +63,3 @@ let g:airline_symbols.linenr = ''
 " inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-
-
