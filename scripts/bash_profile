@@ -1,0 +1,108 @@
+# .bash_profile
+
+# User specific environment and startup programs
+
+export PATH=$HOME/.pyenv/bin:$(pyenv root)/shims:$PATH
+
+if command -v pyenv 1>/dev/null 2>1; then 
+	echo "Initializing PyEnv"
+	eval "$(pyenv init --path)"
+fi
+
+function gitUpstream() {
+    CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+    git checkout master
+    git fetch upstream
+    git rebase upstream/master
+    git push origin master
+    git checkout "${CURRENT_BRANCH}"
+}
+
+function killport() {
+   sudo kill -9 $(sudo lsof -t -i:$@)
+}
+function gcommita() {
+   git add .;
+   git commit -m "(add) $@"
+}
+
+function gcommitr() {
+   git add .;
+   git commit -m "(refactor) $@"
+}
+
+function gcommitd() {
+   git add .;
+   git commit -m "(delete) $@"
+}
+
+function gco() {
+   git checkout $1
+}
+
+function gcom() {
+   git checkout master
+}
+
+function killPort() {
+   lsof -P | grep ':@1' | awk '' | xargs kill -9
+}
+
+alias bp="nvim ~/.bash_profile"
+alias gpush="git push origin head"
+alias gcempty="git commit --allow-empty"
+alias gadd="git add ."
+alias gmm="git merge master"
+alias gst="git status"
+alias gfa="git fetch --all"
+alias greset="git reset --hard HEAD && git clean -xfd"
+alias gbranch="git branch | grep -ve \"master\" | xargs git branch -D"
+alias killport=killport
+alias ls="ls -la"
+alias mkdir="mkdir -p"
+alias sourcerc="source ~/.bash_profile && source ~/.zshrc"
+alias usebash="chsh -s /bin/bash"
+alias usezsh="chsh -s /bin/zsh"
+alias mci="mvn clean install"
+alias d="cd ~/developer"
+alias dl="cd ~/Downloads"
+alias grk="gradle ktlintFormat"
+alias grfull="gradle clean ktlintFormat build"
+alias grbuild="gradle build"
+alias gbranch="git checkout -b"
+alias grclean="gradle clean"
+alias pbcopy="xclip -selection clipboard"
+alias pbpaste="xclip -selection clipboard -o"
+alias chooseJava="sudo alternatives --config java"
+alias p="python3.10"
+alias nvthis="nvim ."
+alias nvcheat="xdg-open https://vim.rtorr.com/"
+alias dockprune="docker rm -f $(docker ps -a -q)"
+alias dockvolprune="docker volume prune"
+alias f="fish"
+
+parse_git_branch() {
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+function wifi() {
+   uuidpass=km8ndb44d3yddf 
+   echo -n "$uuidpass" | pbcopy   
+}
+
+
+
+
+
+
+function getuuid {
+    uuid=$(uuidgen | tr 'A-Z' 'a-z' | tr -d '\n')
+    (osascript -e "display notification with title \"⌘-V to paste\" subtitle \"$uuid\"" &) >/dev/null 2>&1
+    echo -n "$uuid" | pbcopy
+}
+
+export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+
+
